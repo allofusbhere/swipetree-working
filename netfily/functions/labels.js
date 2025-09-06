@@ -1,6 +1,6 @@
 // Netlify Function: labels
 exports.handler = async (event, context) => {
-  const url = new URL(event.url);
+  const id = event.queryStringParameters?.id;
   const method = event.httpMethod.toUpperCase();
   const blobs = context?.blobs;
   const KEY = (id) => `labels:${id}`;
