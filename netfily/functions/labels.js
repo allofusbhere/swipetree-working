@@ -6,8 +6,7 @@ exports.handler = async (event, context) => {
       'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify({
-      message: 'Function is working!',
+      message: 'function is working!',
       timestamp: new Date().toISOString()
     })
   };
-};
