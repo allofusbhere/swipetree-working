@@ -122,11 +122,11 @@ img{-webkit-touch-callout:none}
   const cacheBust = ()=> `?v=${Date.now()%1e7}`;
   function setURLHash(id){ try{ history.replaceState(null,'',`#${encodeURIComponent(id)}`); }catch{} }
 
-  // Cross-device label functions
+  // Cross-device label functions - FIXED ENDPOINTS
   async function getLabel(id) {
     try {
       const bust = Date.now();
-      const res = await fetch(`/.netlify/functions/labels?id=${encodeURIComponent(id)}&t=${bust}`, {
+      const res = await fetch(`/.netlify/functions/swipelabels?id=${encodeURIComponent(id)}&t=${bust}`, {
         method: 'GET',
         cache: 'no-store',
         headers: { 'Accept': 'application/json' }
@@ -148,7 +148,7 @@ img{-webkit-touch-callout:none}
 
   async function setLabel(id, name, dob) {
     try {
-      const res = await fetch('/.netlify/functions/labels', {
+      const res = await fetch('/.netlify/functions/swipelabels', {
         method: 'POST',
         cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
