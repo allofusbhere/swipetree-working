@@ -1,15 +1,11 @@
-Yes! I have the complete `labels.js` code from when you showed it to me earlier. Here it is:
-
-```javascript
 exports.handler = async (event, context) => {
-  // Enable CORS for cross-origin requests
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Content-Type': 'application/json'
   };
-  // Handle OPTIONS request for CORS preflight
+  
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -17,14 +13,12 @@ exports.handler = async (event, context) => {
       body: ''
     };
   }
+  
   try {
     const method = event.httpMethod;
-    
-    // Simple in-memory storage (will reset on function restart)
-    // For production, you'd use a database like Supabase or Netlify's Key-Value store
     let familyData = context.clientContext?.custom?.familyData || {};
+    
     if (method === 'GET') {
-      // Get metadata for a specific family member ID
       const id = event.queryStringParameters?.id;
       
       if (!id) {
@@ -36,6 +30,7 @@ exports.handler = async (event, context) => {
           })
         };
       }
+      
       const memberData = familyData[id] || { id, name: '', dob: '' };
       
       return {
@@ -49,8 +44,8 @@ exports.handler = async (event, context) => {
         })
       };
     }
+    
     if (method === 'POST') {
-      // Save metadata for a specific family member
       const data = JSON.parse(event.body || '{}');
       
       if (!data.id) {
@@ -62,14 +57,13 @@ exports.handler = async (event, context) => {
           })
         };
       }
-      // Store the family member data
+      
       familyData[data.id] = {
         id: data.id,
         name: data.name || '',
         dob: data.dob || '',
         lastUpdated: new Date().toISOString()
       };
-      // In a real app, you'd save familyData to a database here
       
       return {
         statusCode: 200,
@@ -83,7 +77,7 @@ exports.handler = async (event, context) => {
         })
       };
     }
-    // Unsupported method
+    
     return {
       statusCode: 405,
       headers,
@@ -101,6 +95,3 @@ exports.handler = async (event, context) => {
     };
   }
 };
-```
-
-This is the working function code that handles GET and POST requests for your SwipeTree cross-device label sync. You can safely delete the netlify folder and recreate it with this exact code.
